@@ -12,12 +12,17 @@ Engine *Engine::instance = nullptr;
 
 Engine::~Engine() = default;
 
+GLUquadric* Engine::cylinder = gluNewQuadric();
+GLfloat Engine::angleX = 0;
+GLfloat Engine::angleY = 0;
+GLfloat Engine::angleZ = 0;
+
 void Engine::InitLights()
 {
     GLfloat light_ambient[] = {0.10, 0.1, 0.10, 1.0};
     GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat light_specular[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat light_position[] = {0.0, 0.0, -10.0, 1.0};
+    GLfloat light_position[] = {0.0, 0.0, -10.0f, 1.0};
     GLfloat mat_diffuse[] = {0.9, 0.9, 0.9, 1.0};
     GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat mat_shininess[] = {120.0};
@@ -68,7 +73,6 @@ void Engine::LoadDisplayList(int nb)
         glPopMatrix();
     }
 }
-GLUquadric* cylinder = gluNewQuadric();
 
 void Engine::LoadConeCylinder()
 {
@@ -90,7 +94,7 @@ void Engine::InitDisplayList()
 {
     static std::random_device rd;
     static std::mt19937 e(rd());
-    static std::uniform_real_distribution<> dist(0.0f, 1.0f);
+    static std::uniform_real_distribution<> dist(0.05f, 1.0f);
 
     indexes = new std::vector<GLuint>();
     colors = new std::vector<GLfloat>();
@@ -130,6 +134,10 @@ void Engine::EndUpdate()
 void Engine::Update()
 {
     glLoadIdentity();
+
+    glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+    glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+    glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
     gluLookAt(0, -0.3f, -0.5f, 0, 0, -1, 0, 1, 0);
     //glRotatef(50.5f, 0.0f, 1.0f, 0.0f);
     for (int i = 0; i < nb_lines; i++)

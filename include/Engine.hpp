@@ -28,6 +28,10 @@ public:
         GraphicalCore::UpdateGl();
     }
 
+    static GLUquadric* cylinder;
+    static GLfloat angleX;
+    static GLfloat angleY;
+    static GLfloat angleZ;
     GLuint nb_lines;
     std::vector<GLuint> *indexes;
     std::vector<GLuint> *textures;
@@ -43,6 +47,7 @@ private:
     void PrintInformation();
     void RenderBitmapString(float x, float y, void *font, std::string s);
     void LoadDisplayList(int i);
+    void LoadConeCylinder();
 
 #pragma SINGLETON
 private:
@@ -60,7 +65,6 @@ public:
 
 #pragma END SINGLETON
 
-    void LoadConeCylinder();
 };
 
 

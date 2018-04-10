@@ -17,7 +17,7 @@
 
 #define DEFAULT_WIDTH 960
 #define DEFAULT_HEIGHT 960
-#define WINDOW_TITLE "Bezier Surface - Valentin KAO - 2017280242"
+#define WINDOW_TITLE "Pyramid - Valentin KAO - 2017280242"
 
 struct Options
 {
