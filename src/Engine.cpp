@@ -6,16 +6,13 @@
 #include <random>
 #include "Engine.hpp"
 
-// http://www.songho.ca/opengl/gl_displaylist.html
-
 Engine *Engine::instance = nullptr;
-
-Engine::~Engine() = default;
-
 GLUquadric* Engine::cylinder = gluNewQuadric();
 GLfloat Engine::angleX = 0;
 GLfloat Engine::angleY = 0;
 GLfloat Engine::angleZ = 0;
+
+Engine::~Engine() = default;
 
 void Engine::InitLights()
 {
@@ -154,7 +151,6 @@ void Engine::Update()
     glRotatef(angleY, 0.0f, 1.0f, 0.0f);
     glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
     gluLookAt(0, -0.3f, -0.5f, 0, 0, -1, 0, 1, 0);
-    //glRotatef(50.5f, 0.0f, 1.0f, 0.0f);
     for (int i = 0; i < nb_lines; i++)
     {
         glColor4f((*colors)[i * 3], (*colors)[i * 3  + 1], (*colors)[i * 3 + 2], 1.0f);

@@ -12,7 +12,7 @@
 #include <vector>
 
 #define NB_LIST 128
-#define TEXTURES_NAMES "../texture.jpg"
+#define TEXTURES_NAMES "texture.jpg"
 
 class Engine
 {

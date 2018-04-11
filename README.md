@@ -3,9 +3,14 @@ FUNDAMENTALS OF COMPUTER GRAPHICS -  PROJECT 2 REPORT
 Author: Valentin KAO <valentin.kao@epitech.eu>
 		张有请 - 2017280242
 		
-The purpose of this project is to implement an OpenGl program in which
-multiple stars rotate around a center point and extend to the outer ring.
-The stars must be of different colors.
+The purpose of this project is to implement an OpenGl program using display
+list to draw a pyramid :
+- The top layer has one cylinder or cone, the number in each layer is 
+ascend downward.
+- Texture on each cone/each cylinder
+- Use different colors to draw each layer
+- Click right mouse button to display a menu to add a new layer
+- Drag the mouse to rotate the whole pyramid
 
 ---------------------------------------------------------------------------
 VIDEO CAPTURE
@@ -35,7 +40,7 @@ command lines.
 Once the compilated was successful, you can execute the program. 
 Here is the usage of the program.
 
-	./ThePyramid [--width=x] [--height=y] [--title=”Assignment 2”]
+	./ThePyramid [--width=x] [--height=y] [--title=”Assignment”]
 	
 ---------------------------------------------------------------------------
 FLAGS – OPTIONS	DESCRIPTION	DEFAULT
@@ -51,24 +56,45 @@ SOFTWARE DESIGN
 In order to implement future project easily, I define a simple application
 design. Those three classes are singletons avoiding any multiple instances.
 
+Application class is in charge of parsing the arguments and to init the
+graphical core of the program with the input window size or the input
+window name. 
+
+GraphicalCore initializes OpenGL engine : window creation, keyboard handler,
+mouse handler, reshape handler, etc.
+
+Engine is the core of the project : it will init the lights, the display
+lists, textures. The main Update function is in this class.
+
 ---------------------------------------------------------------------------
 ALGORITHM IMPLEMENTED
 ---------------------------------------------------------------------------
-Using the formula to generate an Archimedean Spiral, first, we will store 
-all possible positions into a vector of glm::vec2 in the function 
-Engine::InitStars. Indeed, we compute only once the positions.
 
-The class Star contains a color generated randomly and represented by a 
-glm::vec3; and the current index in the pre-computed positions vector 
-represented by an integer. 50 stars are created and store in a vector of 
-Star. The main update loop of Engine::Update progressively generate the
-stars one by one until 50, and then, it loops on the vector of Star, displays
-the current star and increment its index position. If the index is superior
-to the total number of pre-computed positions, it resets the index to zero:
-the star goes back to the middle of the window.
-This method provides the impression of infinite loop and expansion of the spiral.
+First, basic initializations are made, such as Textures and Lights. but then
+we will init the display lists in InitDisplayList() :
+
+- We will generate NB_LIST lists.
+- The list of index 0 has one objective : display a tower composed of a 
+  textured cone and a textured cylinder on position (0, 0).
+- The other lists will correspond to a line : the 1st list will display 1 
+  tower, the 2nd will display 2 towers, etc, until (NB_LIST - 1)th list. Each
+  list calls the list of index 0 to display a number of towers as much as its
+  index.
+
+All colors of each layer are stored in an array of Gfloats as an attribute of
+Engine class, generated randomly. 
+
+The update function calls the lists from 1 to nb_lines (the number of
+layers the user wants to display) : glCallList((*indexes)[i + 1]);
 
 ---------------------------------------------------------------------------
 FUNCTIONNALITIES
 ---------------------------------------------------------------------------
-By pressing the key ESC or the key Q, you close the program properly.
+By pressing the key ESC, you close the program properly.
+By pressing SPACE key, the colors of each layer will change.
+Adding or removing layers can be made by pressing the arrows or down.
+
+If you right-click with your mouse, a menu will be displayed and you will
+be able to change the colors of each layer and to add/remove a layer.
+
+Last functionality is by dragging your mouse, the whole pyramid will rotate.

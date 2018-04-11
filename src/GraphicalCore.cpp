@@ -17,7 +17,7 @@ void GraphicalCore::Init()
     glMatrixMode(GL_PROJECTION);
 }
 
-void GraphicalCore::menu(int value)
+void GraphicalCore::Menu(int value)
 {
     if (value == 1 && Engine::Instance()->nb_lines < 128)
         Engine::Instance()->nb_lines += 1.0f;
@@ -28,8 +28,9 @@ void GraphicalCore::menu(int value)
     glutPostRedisplay();
 }
 
-void GraphicalCore::createMenu(void){
-    glutCreateMenu(GraphicalCore::menu);
+void GraphicalCore::CreateMenu()
+{
+    glutCreateMenu(GraphicalCore::Menu);
     glutAddMenuEntry("Add layer", 1);
     glutAddMenuEntry("Remove layer", 2);
     glutAddMenuEntry("Change all layers colors", 3);
@@ -37,17 +38,17 @@ void GraphicalCore::createMenu(void){
 }
 
 
-void GraphicalCore::mouseButton(int button, int state, int x, int y) {
-
-    // only start motion if the left button is pressed
-    if (button == GLUT_LEFT_BUTTON) {
-
-        // when the button is released
-        if (state == GLUT_UP) {
+void GraphicalCore::mouseButton(int button, int state, int x, int y)
+{
+    if (button == GLUT_LEFT_BUTTON)
+    {
+        if (state == GLUT_UP)
+        {
             xOrigin = -1;
             yOrigin = -1;
         }
-        else  {// state = GLUT_DOWN
+        else
+        {
             xOrigin = x;
             yOrigin = y;
         }
@@ -74,7 +75,7 @@ bool GraphicalCore::Run(int ac, char **av, Options *options)
     glutKeyboardFunc(GraphicalCore::_KeyboardHandle);
     glutMouseFunc(mouseButton);
     glutMotionFunc(mouseMove);
-    createMenu();
+    GraphicalCore::CreateMenu();
     glutMainLoop();
     return (true);
 }

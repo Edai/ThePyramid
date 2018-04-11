@@ -48,9 +48,9 @@ public:
     }
 #pragma
 
-    void createMenu(void);
+    void CreateMenu(void);
 
-    static void menu(int value);
+    static void Menu(int value);
 };
 
 #endif //ASSIGNMENT2_GRAPHICALCORE_HPP

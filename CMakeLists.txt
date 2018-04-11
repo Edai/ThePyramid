@@ -37,3 +37,4 @@ include_directories(include/ ${OPENGL_INCLUDE_DIRS} $(SOIL_INCLUDE_PATH) ${GLUT_
 
 target_link_libraries(ThePyramid ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${SOIL_LIBRARY})
 
+configure_file(texture.jpg texture.jpg COPYONLY)
