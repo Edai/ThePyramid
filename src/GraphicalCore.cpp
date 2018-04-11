@@ -5,6 +5,8 @@
 #include <Engine.hpp>
 
 GraphicalCore* GraphicalCore::instance = nullptr;
+int GraphicalCore::xOrigin = -1;
+int GraphicalCore::yOrigin = -1;
 
 void GraphicalCore::Init()
 {
@@ -15,34 +17,35 @@ void GraphicalCore::Init()
     glMatrixMode(GL_PROJECTION);
 }
 
-void menu(int value)
+void GraphicalCore::menu(int value)
 {
-    if (value == 1)
-        Engine::Instance()->nb_lines++;
-    else
-        Engine::Instance()->nb_lines--;
+    if (value == 1 && Engine::Instance()->nb_lines < 128)
+        Engine::Instance()->nb_lines += 1.0f;
+    else if (value == 2 && Engine::Instance()->nb_lines > 0)
+        Engine::Instance()->nb_lines -= 1.0f;
+    else if (value == 3)
+        Engine::Instance()->ReloadColors();
     glutPostRedisplay();
 }
 
-void createMenu(void){
-    glutCreateMenu(menu);
+void GraphicalCore::createMenu(void){
+    glutCreateMenu(GraphicalCore::menu);
     glutAddMenuEntry("Add layer", 1);
     glutAddMenuEntry("Remove layer", 2);
+    glutAddMenuEntry("Change all layers colors", 3);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
-float deltaAngle = 0.0f;
-int xOrigin = -1;
-int yOrigin = -1;
 
-void mouseButton(int button, int state, int x, int y) {
+
+void GraphicalCore::mouseButton(int button, int state, int x, int y) {
 
     // only start motion if the left button is pressed
     if (button == GLUT_LEFT_BUTTON) {
 
         // when the button is released
         if (state == GLUT_UP) {
-            Engine::angleY += deltaAngle;
             xOrigin = -1;
+            yOrigin = -1;
         }
         else  {// state = GLUT_DOWN
             xOrigin = x;
@@ -51,10 +54,10 @@ void mouseButton(int button, int state, int x, int y) {
     }
 }
 
-void mouseMove(int x, int y)
+void GraphicalCore::mouseMove(int x, int y)
 {
-    Engine::angleX = (x - xOrigin) * 0.25f;
-    Engine::angleY = (y - yOrigin)  * 0.25f;
+    Engine::angleY = (x - xOrigin) * 0.25f;
+    Engine::angleX = (y - yOrigin) * 0.25f;
 }
 
 bool GraphicalCore::Run(int ac, char **av, Options *options)
@@ -89,10 +92,13 @@ void GraphicalCore::KeyboardHandle(unsigned char key, int x, int y)
         case 27:
             glutLeaveMainLoop();
             break;
-        case ' ':
+        case 'r':
             Engine::angleX = 0;
             Engine::angleY = 0;
             Engine::angleZ = 0;
+            break;
+        case ' ':
+            Engine::Instance()->ReloadColors();
             break;
         default:
             return;

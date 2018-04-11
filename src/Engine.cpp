@@ -74,6 +74,21 @@ void Engine::LoadDisplayList(int nb)
     }
 }
 
+void Engine::ReloadColors()
+{
+    static std::random_device rd;
+    static std::mt19937 e(rd());
+    static std::uniform_real_distribution<> dist(0.05f, 1.0f);
+
+    colors->clear();
+    for (int i = 1; i < NB_LIST; i++)
+    {
+        colors->push_back(dist(e));
+        colors->push_back(dist(e));
+        colors->push_back(dist(e));
+    }
+}
+
 void Engine::LoadConeCylinder()
 {
     glPushMatrix();

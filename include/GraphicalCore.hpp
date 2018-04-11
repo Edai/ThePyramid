@@ -11,7 +11,11 @@ class GraphicalCore
 {
 public:
     bool Run(int ac, char **av, Options *options);
+    static int xOrigin;
+    static int yOrigin;
+    static void mouseButton(int button, int state, int x, int y);
     static void UpdateGl();
+    static void mouseMove(int x, int y);
     static void _KeyboardHandle(unsigned char key, int x, int y)
     {
         GraphicalCore::Instance()->KeyboardHandle(key, x, y);
@@ -43,6 +47,10 @@ public:
         return instance;
     }
 #pragma
+
+    void createMenu(void);
+
+    static void menu(int value);
 };
 
 #endif //ASSIGNMENT2_GRAPHICALCORE_HPP

@@ -65,6 +65,7 @@ public:
 
 #pragma END SINGLETON
 
+    void ReloadColors();
 };
 
 
